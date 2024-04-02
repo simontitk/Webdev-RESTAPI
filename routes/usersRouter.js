@@ -1,36 +1,39 @@
-import express from "express";
+const express = require('express');
+const router = express.Router();
 
-export const usersRouter = express.Router();
+const usersService = require('../services/service')
+const service = new usersService();
 
-usersRouter.get("/", (req, res) => {
-
-});
-
-usersRouter.post("/", (req, res) => {
-    
-});
-
-usersRouter.put("/", (req, res) => {
-    
-});
-
-usersRouter.delete("/", (req, res) => {
-    
-});
-
-usersRouter.get("/:id", (req, res) => {
+router.get("/", (req, res) => {
 
 });
 
-usersRouter.post("/:id", (req, res) => {
-    
+router.post("/", (req, res) => {
+
 });
 
-usersRouter.put("/:id", (req, res) => {
-    
+router.put("/", (req, res) => {
+
 });
 
-usersRouter.delete("/:id", (req, res) => {
-    
+router.delete("/", (req, res) => {
+
 });
 
+router.get("/:id", (req, res) => {
+
+});
+
+router.post("/:id", (req, res) => {
+
+});
+
+router.put("/:id", (req, res) => {
+
+});
+
+router.delete("/:id", (req, res) => {
+
+});
+
+module.exports = router;

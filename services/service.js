@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-class Service {
+class cartsService {
     async createCart(userId, productId, quantity) {
         try {
             const cart = await prisma.cart.create({
@@ -19,3 +19,16 @@ class Service {
     }
 }
 
+class ordersService {
+
+}
+
+class productsService {
+
+}
+
+class usersService {
+
+}
+
+module.exports = cartsService, ordersService, productsService, usersService;

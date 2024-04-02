@@ -1,36 +1,39 @@
-import express from "express";
+const express = require('express');
+const router = express.Router();
 
-export const ordersRouter = express.Router();
+const ordersService = require('../services/service')
+const service = new ordersService();
 
-ordersRouter.get("/", (req, res) => {
-
-});
-
-ordersRouter.post("/", (req, res) => {
-    
-});
-
-ordersRouter.put("/", (req, res) => {
-    
-});
-
-ordersRouter.delete("/", (req, res) => {
-    
-});
-
-ordersRouter.get("/:id", (req, res) => {
+router.get("/", (req, res) => {
 
 });
 
-ordersRouter.post("/:id", (req, res) => {
-    
+router.post("/", (req, res) => {
+
 });
 
-ordersRouter.put("/:id", (req, res) => {
-    
+router.put("/", (req, res) => {
+
 });
 
-ordersRouter.delete("/:id", (req, res) => {
-    
+router.delete("/", (req, res) => {
+
 });
 
+router.get("/:id", (req, res) => {
+
+});
+
+router.post("/:id", (req, res) => {
+
+});
+
+router.put("/:id", (req, res) => {
+
+});
+
+router.delete("/:id", (req, res) => {
+
+});
+
+module.exports = router;

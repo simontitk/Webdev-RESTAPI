@@ -1,36 +1,49 @@
-import express from "express";
+const express = require('express');
+const router = express.Router();
 
-export const cartsRouter = express.Router();
+const cartsService = require('../services/service')
+const service = new cartsService();
 
-cartsRouter.get("/", (req, res) => {
 
+// router.get("/", (req, res) => {
+
+// });
+
+// router.post("/", (req, res) => {
+
+// });
+
+// c artsRouter.put("/", (req, res) => {
+
+// });
+
+// router.delete("/", (req, res) => {
+
+// });
+
+// router.get("/:id", (req, res) => {
+
+// });
+
+router.post("/:id", (req, res) => {
+    try {
+        const uid = parseInt(req.params.id);
+        service.createCart(uid, req.body.pid, req.body.quantity)
+        res.json({ message: 'Cart added to database' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error adding cart to database: ${err.message}`)
+    }
 });
 
-cartsRouter.post("/", (req, res) => {
-    
-});
+// router.put("/:id", (req, res) => {
 
-cartsRouter.put("/", (req, res) => {
-    
-});
+// });
 
-cartsRouter.delete("/", (req, res) => {
-    
-});
+// router.delete("/:id", (req, res) => {
 
-cartsRouter.get("/:id", (req, res) => {
+// });
 
-});
 
-cartsRouter.post("/:id", (req, res) => {
-
-});
-
-cartsRouter.put("/:id", (req, res) => {
-    
-});
-
-cartsRouter.delete("/:id", (req, res) => {
-    
-});
+module.exports = router;
 
