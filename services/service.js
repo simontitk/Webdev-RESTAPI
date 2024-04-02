@@ -71,7 +71,7 @@ class cartsService {
         }
     }
 
-    async deleteCart(userId, productId) {
+    async deleteProductFromCart(userId, productId) {
         try {
             await prisma.cart.delete({
                 where: {
@@ -79,6 +79,19 @@ class cartsService {
                         uid: userId,
                         pid: productId
                     }
+                }
+            })
+        } catch (err) {
+            console.error(err)
+            throw new Error(`Error deleting cart: ${err.message}`)
+        }
+    }
+
+    async deleteCart(userId) {
+        try {
+            await prisma.cart.deleteMany({
+                where: {
+                    uid: userId,
                 }
             })
         } catch (err) {

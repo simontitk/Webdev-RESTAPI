@@ -66,8 +66,16 @@ router.delete("/:id", async (req, res) => {
     // Delete item from cart of user @ uid
     try {
         const uid = parseInt(req.params.id);
-        await service.deleteCart(uid, req.body.pid)
-        res.json({ message: 'Cart deleted' })
+        console.log(req.body)
+        if (req.body.pid) {
+            // If pid is provided, delete only the product with that ID
+            await service.deleteProductFromCart(uid, req.body.pid);
+            res.json({ message: 'Product deleted from cart' })
+        } else {
+            // If pid is not provided, delete all cart of user
+            await service.deleteCart(uid);
+            res.json({ message: 'Cart deleted' })
+        }
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error deleting cart: ${err.message}`)
