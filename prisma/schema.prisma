@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../db/hydrohomies.db"
+}
+
+model Products {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  brand       String
+  description String
+  picture_uri String
+  volume      Int
+  amount      Int
+  rating      Int
+  price       Float
+  categories  ProductCategories[]
+  Cart        Cart[]
+  Order_items Order_items[]
+}
+
+model Categories {
+  id       Int                 @id @default(autoincrement())
+  name     String
+  products ProductCategories[]
+}
+
+model ProductCategories {
+  pid     Int
+  product Products @relation(fields: [pid], references: [id])
+
+  cid      Int
+  category Categories @relation(fields: [cid], references: [id])
+
+  @@id([pid, cid])
+}
+
+model Users {
+  id             Int      @id @default(autoincrement())
+  first_name     String
+  last_name      String
+  email          String
+  phone          String
+  city           String
+  street         String
+  password       String
+  payment_method String
+  Cart           Cart[]
+  Orders         Orders[]
+}
+
+model Cart {
+  uid      Int
+  user     Users    @relation(fields: [uid], references: [id])
+  pid      Int
+  product  Products @relation(fields: [pid], references: [id])
+  quantity Int
+
+  @@id([uid, pid])
+}
+
+model Orders {
+  id          Int           @id @default(autoincrement())
+  uid         Int
+  user        Users         @relation(fields: [uid], references: [id])
+  total_price Float
+  Order_items Order_items[]
+}
+
+model Order_items {
+  oid      Int
+  order    Orders   @relation(fields: [oid], references: [id])
+  pid      Int
+  product  Products @relation(fields: [pid], references: [id])
+  quantity Int
+
+  @@id([oid, pid])
+}
