@@ -18,6 +18,20 @@ async function main() {
         },
     });
 
+    const user2 = await prisma.users.create({
+        data: {
+            first_name: 'Jane',
+            last_name: 'Doe',
+            email: 'jane.doe@example.com',
+            phone: '0987654321',
+            city: 'City',
+            street: 'Street',
+            password: 'password',
+            payment_method: 'Credit Card',
+        },
+    });
+
+
     const category1 = await prisma.categories.create({
         data: {
             name: 'Category 1',
@@ -34,6 +48,19 @@ async function main() {
             amount: 10,
             rating: 5,
             price: 9.99,
+        },
+    });
+
+    const product2 = await prisma.products.create({
+        data: {
+            name: 'Product 2',
+            brand: 'Brand',
+            description: 'Description',
+            picture_uri: 'http://example.com/picture.jpg',
+            volume: 50,
+            amount: 5,
+            rating: 2,
+            price: 1.99,
         },
     });
 
