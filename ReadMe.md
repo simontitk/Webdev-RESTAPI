@@ -15,5 +15,7 @@ To start the server in dev mode use the `npm run devstart` command
 We are using SQLite database for our db.
 
 To reset the database use these commands:
+
 `npx prisma migrate reset --force`
+
 `node prisma/seed.js`
