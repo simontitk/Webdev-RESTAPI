@@ -4,36 +4,82 @@ const router = express.Router();
 const usersService = require('../services/service')
 const service = new usersService();
 
-router.get("/", (req, res) => {
-
+router.get("/", async(req, res) => {
+// Get all users
+    try {
+        res.json(await service.getAllUsers())
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error getting users from database: ${err.message}`)
+    }
 });
 
-router.post("/", (req, res) => {
-
+router.post("/:id", async (req, res) => {
+    // Create a new user
+    try {
+        const uid = parseInt(req.params.id);
+        await service.createUser(uid, req.body.pid, req.body.quantity)
+        res.json({ message: 'User added to database' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error addding user to database: ${err.message}`)
+    }
 });
 
-router.put("/", (req, res) => {
-
+router.put("/", async(req, res) => {
+    // Update information of user @ uid
+    try {
+        const uid = parseInt(req.params.id);
+        await service.updateUser(uid, req.body.pid, req.body.quantity)
+        res.json({ message: 'User information updated' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error updating user information: ${err.message}`)
+    }
 });
 
-router.delete("/", (req, res) => {
-
+router.delete("/", async(req, res) => {
+    // Delete all Users
+    try {
+        await service.deleteAllUsers()
+        res.json({ message: 'All Users deleted' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error deleting all Users: ${err.message}`)
+    }
 });
 
-router.get("/:id", (req, res) => {
-
+router.get("/:id", async(req, res) => {
+// Get user with specific @ uid
+    try {
+        const uid = parseInt(req.params.id);
+        res.json(await service.getUser(uid))
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error getting User from database: ${err.message}`)
+    }
 });
 
-router.post("/:id", (req, res) => {
-
+// Not sure if needed since it's blank in our Google sheets
+router.post("/:id", async(req, res) => { 
 });
 
+// Not sure if needed since it's blank in our Google sheets
 router.put("/:id", (req, res) => {
-
 });
 
-router.delete("/:id", (req, res) => {
 
+router.delete("/:id", async(req, res) => {
+    // Delete User with @ uid
+    try {
+        const uid = parseInt(req.params.id);
+        console.log(req.body)
+            await service.deleteUser(uid);
+            res.json({ message: 'User deleted from database' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error deleting User: ${err.message}`)
+    }
 });
 
 module.exports = router;
