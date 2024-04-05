@@ -60,15 +60,6 @@ router.get("/:id", async(req, res) => {
     }
 });
 
-// Not sure if needed since it's blank in our Google sheets
-router.post("/:id", async(req, res) => { 
-});
-
-// Not sure if needed since it's blank in our Google sheets
-router.put("/:id", (req, res) => {
-});
-
-
 router.delete("/:id", async(req, res) => {
     // Delete User with @ uid
     try {
