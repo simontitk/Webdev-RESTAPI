@@ -137,4 +137,4 @@ class usersService {
 
 }
 
-module.exports = usersService, cartsService, ordersService, productsService;
+module.exports = {usersService, cartsService, ordersService, productsService}
