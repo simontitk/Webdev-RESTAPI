@@ -1,39 +1,121 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
 const { productsService } = require('../services/service')
+
 const service = new productsService();
 
-router.get("/", (req, res) => {
-
+router.get("/", async (req, res) => {
+  // Read all products
+  try {
+    res.json(await service.getAllProducts());
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send(`Error getting products from database: ${err.message}`);
+  }
 });
 
-router.post("/", (req, res) => {
-
+router.post("/", async (req, res) => {
+  // Create new product
+  try {
+    await service.createProduct(
+      req.body.name,
+      req.body.brand,
+      req.body.description,
+      req.body.picture_uri,
+      req.body.volume,
+      req.body.amount,
+      req.body.rating,
+      req.body.price,
+      req.body.categories
+    );
+    res.json({ message: "Product added to database" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error adding product to database: ${err.message}`);
+  }
 });
 
-router.put("/", (req, res) => {
-
+router.put("/", async (req, res) => {
+  // Update all products
+  try {
+    await service.updateAllProducts(
+      req.body.name,
+      req.body.brand,
+      req.body.description,
+      req.body.picture_uri,
+      req.body.volume,
+      req.body.amount,
+      req.body.rating,
+      req.body.price,
+      req.body.categories
+    );
+    res.json({ message: "All products updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error updating products: ${err.message}`);
+  }
 });
 
-router.delete("/", (req, res) => {
-
+router.delete("/", async (req, res) => {
+  // Delete all products
+  try {
+    await service.deleteAllProducts();
+    res.json({ message: "All products deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error deleting all products: ${err.message}`);
+  }
 });
 
-router.get("/:id", (req, res) => {
-
+router.get("/:id", async (req, res) => {
+  // Get product @ pid
+  try {
+    const pid = parseInt(req.params.id);
+    res.json(await service.getProduct(pid));
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error getting product from database: ${err.message}`);
+  }
 });
 
-router.post("/:id", (req, res) => {
-
+router.put("/:id", async (req, res) => {
+  // Update product @ pid
+  try {
+    const pid = parseInt(req.params.id);
+    await service.updateAllProducts(
+      pid,
+      req.body.name,
+      req.body.brand,
+      req.body.description,
+      req.body.picture_uri,
+      req.body.volume,
+      req.body.amount,
+      req.body.rating,
+      req.body.price,
+      req.body.categories
+    );
+    res.json({ message: "Product updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error updating product: ${err.message}`);
+  }
 });
 
-router.put("/:id", (req, res) => {
-
-});
-
-router.delete("/:id", (req, res) => {
-
+router.delete("/:id", async (req, res) => {
+  // Delete product @ pid
+  try {
+    const pid = parseInt(req.params.id);
+    console.log(req.body);
+    res.json(await service.deleteProduct(pid));
+    res.json({ message: "Product deleted" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send(`Error deleting product from database: ${err.message}`);
+  }
 });
 
 module.exports = router;

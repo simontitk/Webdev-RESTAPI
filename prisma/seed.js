@@ -5,6 +5,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
+
+    const category1 = await prisma.categories.create({
+        data: {
+            name: 'Category 1',
+        },
+    });
+
+    const category2 = await prisma.categories.create({
+        data: {
+            name: 'Category 2',
+        },
+    });
+
     const user1 = await prisma.users.create({
         data: {
             first_name: 'John',
@@ -14,7 +27,7 @@ async function main() {
             city: 'City',
             street: 'Street',
             password: 'password',
-            payment_method: 'Credit Card',
+            payment_method: 'Credit Card',            
         },
     });
 
@@ -32,11 +45,6 @@ async function main() {
     });
 
 
-    const category1 = await prisma.categories.create({
-        data: {
-            name: 'Category 1',
-        },
-    });
 
     const product1 = await prisma.products.create({
         data: {
@@ -48,6 +56,9 @@ async function main() {
             amount: 10,
             rating: 5,
             price: 9.99,
+            categories: {
+                connect: [{id: 1}]
+              }
         },
     });
 
@@ -61,17 +72,13 @@ async function main() {
             amount: 5,
             rating: 2,
             price: 1.99,
+            categories: {
+                connect: [{id: 2}]
+              }
         },
     });
 
-    const productCategory1 = await prisma.productCategories.create({
-        data: {
-            pid: product1.id,
-            cid: category1.id,
-        },
-    });
-
-    const cart1 = await prisma.cart.create({
+    const cart1 = await prisma.carts.create({
         data: {
             uid: user1.id,
             pid: product1.id,
@@ -83,14 +90,6 @@ async function main() {
         data: {
             uid: user1.id,
             total_price: product1.price,
-        },
-    });
-
-    const orderItem1 = await prisma.order_items.create({
-        data: {
-            oid: order1.id,
-            pid: product1.id,
-            quantity: 1,
         },
     });
 }
