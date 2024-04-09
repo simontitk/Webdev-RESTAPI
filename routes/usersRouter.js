@@ -14,12 +14,11 @@ router.get("/", async(req, res) => {
     }
 });
 
-router.post("/:id", async (req, res) => {
+router.post("/", async (req, res) => {
     // Create a new user
     try {
-        const id = parseInt(req.params.id);
-        await service.createUser(id, req.body.pid, req.body.quantity)
-        res.json({ message: 'User added to database' })
+        await service.createUser(req.body.first_name, req.body.last_name, req.body.email, req.body.phone, req.body.city, req.body.street, req.body.password, req.body.payment_method)
+        res.json({ message: 'User added to database'})
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error addding user to database: ${err.message}`)
@@ -30,7 +29,7 @@ router.put("/", async(req, res) => {
     // Update information of user @ uid
     try {
         const id = parseInt(req.params.id);
-        await service.updateUser(id, req.body.pid, req.body.quantity)
+        await service.updateUser(id, req.body.first_name, req.body.last_name, req.body.email, req.body.phone, req.body.city, req.body.street, req.body.password, req.body.payment_method)
         res.json({ message: 'User information updated' })
     } catch (err) {
         console.error(err)
