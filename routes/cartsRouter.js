@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const cartsService = require('../services/service')
+const {cartsService} = require('../services/service')
 const service = new cartsService();
 
 

@@ -17,25 +17,15 @@ model Products {
   amount      Int
   rating      Int
   price       Float
-  categories  ProductCategories[]
-  Cart        Cart[]
-  Order_items Order_items[]
+  categories  Categories[]
+  cart        Carts[]
+  order       Orders[]
 }
 
 model Categories {
   id       Int                 @id @default(autoincrement())
   name     String
-  products ProductCategories[]
-}
-
-model ProductCategories {
-  pid     Int
-  product Products @relation(fields: [pid], references: [id])
-
-  cid      Int
-  category Categories @relation(fields: [cid], references: [id])
-
-  @@id([pid, cid])
+  products Products[]
 }
 
 model Users {
@@ -48,11 +38,11 @@ model Users {
   street         String
   password       String
   payment_method String
-  Cart           Cart[]
-  Orders         Orders[]
+  cart           Carts[]
+  orders         Orders[]
 }
 
-model Cart {
+model Carts {
   uid      Int
   user     Users    @relation(fields: [uid], references: [id])
   pid      Int
@@ -67,15 +57,7 @@ model Orders {
   uid         Int
   user        Users         @relation(fields: [uid], references: [id])
   total_price Float
-  Order_items Order_items[]
+  products Products[]
 }
 
-model Order_items {
-  oid      Int
-  order    Orders   @relation(fields: [oid], references: [id])
-  pid      Int
-  product  Products @relation(fields: [pid], references: [id])
-  quantity Int
 
-  @@id([oid, pid])
-}
