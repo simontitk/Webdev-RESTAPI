@@ -102,41 +102,41 @@ class cartsService {
 }
 
 class ordersService {
-    async getAllOrders() {
-        try {
-            const orders = await prisma.orders.findMany({
-                include: {
-                    Order_items: {include: {product: true}},
-                    user: true
-                }
-            });
-            return orders;
+  async getAllOrders() {
+    try {
+      const orders = await prisma.orders.findMany({
+        include: {
+          Order_items: { include: { product: true } },
+          user: true
         }
-        catch (err) {
-            console.error(err);
-            throw new Error(`Error fetching orders from database: ${err.message}`)
-
-        }
+      });
+      return orders;
     }
+    catch (err) {
+      console.error(err);
+      throw new Error(`Error fetching orders from database: ${err.message}`)
 
-    async getOrder(orderId) {
-        try {
-            const order = await prisma.orders.findUnique({
-                where: {
-                    id: orderId
-                },
-                include: {
-                    Order_items: {include: {product: true}},
-                    user: true
-                }
-            });
-            return order;
-        } 
-        catch (err) {
-            console.error(err);
-            throw new Error(`Error fetching order from database: ${err.message}`)
-        }
     }
+  }
+
+  async getOrder(orderId) {
+    try {
+      const order = await prisma.orders.findUnique({
+        where: {
+          id: orderId
+        },
+        include: {
+          Order_items: { include: { product: true } },
+          user: true
+        }
+      });
+      return order;
+    }
+    catch (err) {
+      console.error(err);
+      throw new Error(`Error fetching order from database: ${err.message}`)
+    }
+  }
 }
 
 class productsService {
@@ -144,7 +144,7 @@ class productsService {
     try {
       const products = await prisma.products.findMany({
         include: {
-            categories: true
+          categories: true
         }
       });
       return products;
@@ -177,7 +177,7 @@ class productsService {
           rating: rating,
           price: price,
           categories: {
-            connect: categories.map(id => ({id}))
+            connect: categories.map(id => ({ id }))
           }
         },
       });
@@ -212,7 +212,7 @@ class productsService {
           rating: rating,
           price: price,
           categories: {
-            connect: categories.map(id => ({id}))
+            connect: categories.map(id => ({ id }))
           }
         },
       });
@@ -239,7 +239,7 @@ class productsService {
           id: productId,
         },
         include: {
-            categories: true
+          categories: true
         }
       });
       return product;
@@ -276,7 +276,7 @@ class productsService {
           rating: rating,
           price: price,
           categories: {
-            connect: categories.map(id => ({id}))
+            connect: categories.map(id => ({ id }))
           }
         },
       });
@@ -301,7 +301,63 @@ class productsService {
   }
 }
 
-class usersService {}
+class usersService { }
 
-module.exports = { cartsService, ordersService, productsService, usersService };
+class categoriesService {
+  async getAllCategories() {
+    try {
+      const categories = await prisma.categories.findMany();
+      return categories;
+    } catch (err) {
+      console.error(err);
+      throw new Error(`Error fetching categories from database: ${err.message}`);
+    }
+  }
+
+  async createCategory(name) {
+    try {
+      const category = await prisma.categories.create({
+        data: {
+          name: name,
+        },
+      });
+      return category;
+    } catch (err) {
+      console.error(err);
+      throw new Error(`Error adding category to database: ${err.message}`);
+    }
+  }
+
+  async updateCategory(categoryId, name) {
+    try {
+      const category = await prisma.categories.update({
+        where: {
+          id: categoryId,
+        },
+        data: {
+          name: name,
+        },
+      });
+      return category;
+    } catch (err) {
+      console.error(err);
+      throw new Error(`Error updating category: ${err.message}`);
+    }
+  }
+
+  async deleteCategory(categoryId) {
+    try {
+      await prisma.categories.delete({
+        where: {
+          id: categoryId,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error(`Error deleting category: ${err.message}`);
+    }
+  }
+}
+
+module.exports = { cartsService, ordersService, productsService, usersService, categoriesService };
 

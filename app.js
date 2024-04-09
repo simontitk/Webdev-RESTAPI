@@ -9,6 +9,7 @@ const cartsRouter = require('./routes/cartsRouter.js')
 const ordersRouter = require('./routes/ordersRouter.js')
 const productsRouter = require('./routes/productsRouter.js')
 const usersRouter = require('./routes/usersRouter.js')
+const categoriesRouter = require('./routes/categoriesRouter.js')
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use('/carts', cartsRouter);
 app.use('/orders', ordersRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
+app.use('/categories', categoriesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
