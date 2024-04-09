@@ -17,8 +17,8 @@ router.get("/", async(req, res) => {
 router.post("/:id", async (req, res) => {
     // Create a new user
     try {
-        const uid = parseInt(req.params.id);
-        await service.createUser(uid, req.body.pid, req.body.quantity)
+        const id = parseInt(req.params.id);
+        await service.createUser(id, req.body.pid, req.body.quantity)
         res.json({ message: 'User added to database' })
     } catch (err) {
         console.error(err)
@@ -29,8 +29,8 @@ router.post("/:id", async (req, res) => {
 router.put("/", async(req, res) => {
     // Update information of user @ uid
     try {
-        const uid = parseInt(req.params.id);
-        await service.updateUser(uid, req.body.pid, req.body.quantity)
+        const id = parseInt(req.params.id);
+        await service.updateUser(id, req.body.pid, req.body.quantity)
         res.json({ message: 'User information updated' })
     } catch (err) {
         console.error(err)
@@ -52,8 +52,8 @@ router.delete("/", async(req, res) => {
 router.get("/:id", async(req, res) => {
 // Get user with specific @ uid
     try {
-        const uid = parseInt(req.params.id);
-        res.json(await service.getUser(uid))
+        const id = parseInt(req.params.id);
+        res.json(await service.getUser(id))
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error getting User from database: ${err.message}`)

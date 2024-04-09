@@ -111,6 +111,30 @@ class productsService {
 
 class usersService {
 
+    async getUser(userId) {
+        try {
+            const user = await prisma.users.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+            return user;
+        } catch (err) {
+            console.error(err)
+            throw new Error(`Error getting User from database: ${err.message}`)
+        }
+    }
+
+    async getAllUsers() {
+        try {
+            const users = await prisma.users.findMany()
+            return users
+        } catch (err) {
+            console.error(err)
+            throw new Error(`Error getting users from database: ${err.message}`)
+        }
+    }
+
 }
 
-module.exports = cartsService, ordersService, productsService, usersService;
+module.exports = usersService, cartsService, ordersService, productsService;
