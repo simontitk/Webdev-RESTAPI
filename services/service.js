@@ -101,44 +101,6 @@ class cartsService {
   }
 }
 
-class ordersService {
-    async getAllOrders() {
-        try {
-            const orders = await prisma.orders.findMany({
-                include: {
-                    Order_items: {include: {product: true}},
-                    user: true
-                }
-            });
-            return orders;
-        }
-        catch (err) {
-            console.error(err);
-            throw new Error(`Error fetching orders from database: ${err.message}`)
-
-        }
-    }
-
-    async getOrder(orderId) {
-        try {
-            const order = await prisma.orders.findUnique({
-                where: {
-                    id: orderId
-                },
-                include: {
-                    Order_items: {include: {product: true}},
-                    user: true
-                }
-            });
-            return order;
-        } 
-        catch (err) {
-            console.error(err);
-            throw new Error(`Error fetching order from database: ${err.message}`)
-        }
-    }
-}
-
 class productsService {
   async getAllProducts() {
     try {
@@ -303,5 +265,5 @@ class productsService {
 
 class usersService {}
 
-module.exports = { cartsService, ordersService, productsService, usersService };
+module.exports = { cartsService, productsService, usersService };
 
