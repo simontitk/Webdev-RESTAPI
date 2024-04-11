@@ -90,6 +90,9 @@ async function main() {
         data: {
             uid: user1.id,
             total_price: product1.price,
+            products: {
+                create: [{quantity: 2, pid: product1.id}]
+            }
         },
     });
 }

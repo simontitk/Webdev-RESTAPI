@@ -19,7 +19,7 @@ model Products {
   price       Float
   categories  Categories[]
   cart        Carts[]
-  order       Orders[]
+  orders      OrdersOnProducts[]
 }
 
 model Categories {
@@ -53,11 +53,22 @@ model Carts {
 }
 
 model Orders {
-  id          Int           @id @default(autoincrement())
-  uid         Int
-  user        Users         @relation(fields: [uid], references: [id])
-  total_price Float
-  products Products[]
+  id            Int           @id @default(autoincrement())
+  total_price   Float
+  order_date    DateTime       @default(now())
+  uid           Int
+  user          Users         @relation(fields: [uid], references: [id])
+  products      OrdersOnProducts[]
+}
+
+model OrdersOnProducts {
+    oid         Int 
+    order       Orders   @relation(fields: [oid], references: [id], onDelete: Cascade)
+    pid         Int
+    product     Products @relation(fields: [pid], references: [id])
+    quantity    Int
+
+    @@id([oid, pid])
 }
 
 
