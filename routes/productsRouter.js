@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { productsService } = require('../services/service')
+const { productsService } = require('../services/productsService')
 
 const service = new productsService();
 
@@ -19,16 +19,17 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   // Create new product
   try {
-    await service.createProduct(
-      req.body.name,
-      req.body.brand,
-      req.body.description,
-      req.body.picture_uri,
-      req.body.volume,
-      req.body.amount,
-      req.body.rating,
-      req.body.price,
-      req.body.categories
+    const {name, brand, description, picture_uri, volume, amount, rating, price, categories} = req.body;
+    await service.createProduct( 
+        name, 
+        brand, 
+        description, 
+        picture_uri, 
+        volume, 
+        amount, 
+        rating, 
+        price, 
+        categories
     );
     res.json({ message: "Product added to database" });
   } catch (err) {
@@ -39,17 +40,18 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   // Update all products
+  const {name, brand, description, picture_uri, volume, amount, rating, price, categories} = req.body;
   try {
     await service.updateAllProducts(
-      req.body.name,
-      req.body.brand,
-      req.body.description,
-      req.body.picture_uri,
-      req.body.volume,
-      req.body.amount,
-      req.body.rating,
-      req.body.price,
-      req.body.categories
+        name,
+        brand,
+        description,
+        picture_uri,
+        volume,
+        amount,
+        rating,
+        price,
+        categories
     );
     res.json({ message: "All products updated" });
   } catch (err) {
