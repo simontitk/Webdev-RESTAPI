@@ -1,16 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const path = require('path');
+const createError = require('http-errors');
 
-var indexRouter = require('./routes/index.js');
+const indexRouter = require('./routes/index.js');
 const cartsRouter = require('./routes/cartsRouter.js')
 const ordersRouter = require('./routes/ordersRouter.js')
 const productsRouter = require('./routes/productsRouter.js')
 const usersRouter = require('./routes/usersRouter.js')
+const categoriesRouter = require('./routes/categoriesRouter.js')
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use('/carts', cartsRouter);
 app.use('/orders', ordersRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
+app.use('/categories', categoriesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
