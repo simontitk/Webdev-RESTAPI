@@ -63,7 +63,7 @@ model Orders {
 
 model OrdersOnProducts {
     oid         Int 
-    order       Orders   @relation(fields: [oid], references: [id])
+    order       Orders   @relation(fields: [oid], references: [id], onDelete: Cascade)
     pid         Int
     product     Products @relation(fields: [pid], references: [id])
     quantity    Int
