@@ -17,12 +17,13 @@ router.get("/", async (req, res) => {
 
 
 
-router.post("/", async (req, res) => {
+router.post("/user/:id", async (req, res) => {
 
     /* the endpoint expects an array of product objects and quantities
     ie [{product: {...}: 1, quantity: 10}, {product: {...}, quantity: 3}] */
     
-    const {uid, productQuantites} = req.body;
+    const uid = parseInt(req.params.id);
+    const { productQuantites } = req.body;
 
     const totalPrice = productQuantites
         .map(pq => pq.product.price * pq.quantity)

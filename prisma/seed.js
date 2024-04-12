@@ -9,12 +9,14 @@ async function main() {
     const category1 = await prisma.categories.create({
         data: {
             name: 'Category 1',
+            description: "this is our second amazing category"
         },
     });
 
     const category2 = await prisma.categories.create({
         data: {
             name: 'Category 2',
+            description: "this is our second amazing category"
         },
     });
 

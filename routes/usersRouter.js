@@ -27,18 +27,20 @@ router.get("/:id", async(req, res) => {
 
 router.post("/", async (req, res) => {
     // Create a new user
+    const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
+                
     try {
         await service.createUser(
-            req.body.first_name, 
-            req.body.last_name, 
-            req.body.email, 
-            req.body.phone, 
-            req.body.city, 
-            req.body.street, 
-            req.body.password, 
-            req.body.payment_method
+            first_name, 
+            last_name, 
+            email, 
+            phone, 
+            city, 
+            street, 
+            password, 
+            payment_method
         );
-        res.json({ message: 'User added to database'})
+        res.json({ message: 'User added to database'});
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error addding user to database: ${err.message}`)
@@ -49,16 +51,17 @@ router.put("/:id", async(req, res) => {
     // Update information of user @ uid
     try {
         const id = parseInt(req.params.id);
+        const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
         await service.updateUser(
             id, 
-            req.body.first_name, 
-            req.body.last_name, 
-            req.body.email, 
-            req.body.phone, 
-            req.body.city, 
-            req.body.street, 
-            req.body.password, 
-            req.body.payment_method
+            first_name, 
+            last_name, 
+            email, 
+            phone, 
+            city, 
+            street, 
+            password, 
+            payment_method
         );
         res.json({ message: 'User information updated'})
     } catch (err) {
@@ -82,9 +85,8 @@ router.delete("/:id", async(req, res) => {
     // Delete User with @ uid
     try {
         const id = parseInt(req.params.id);
-        console.log(req.body)
-            await service.deleteUser(id);
-            res.json({ message: 'User deleted from database' })
+        await service.deleteUser(id);
+        res.json({ message: 'User deleted from database' })
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error deleting User: ${err.message}`)

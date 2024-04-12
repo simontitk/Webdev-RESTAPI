@@ -45,7 +45,7 @@ model Users {
 
 model Carts {
   uid      Int
-  user     Users        @relation(fields: [uid], references: [id])
+  user     Users        @relation(fields: [uid], references: [id], onDelete: Cascade) 
   pid      Int
   product  Products     @relation(fields: [pid], references: [id])
   quantity Int
@@ -58,7 +58,7 @@ model Orders {
   total_price   Float
   order_date    DateTime       @default(now())
   uid           Int
-  user          Users         @relation(fields: [uid], references: [id])
+  user          Users         @relation(fields: [uid], references: [id], onDelete: Cascade)
   products      OrdersOnProducts[]
 }
 
