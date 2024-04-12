@@ -17,6 +17,19 @@ router.get("/", async (req, res) => {
 });
 
 
+router.get("/:id", async (req, res) => {
+    try {
+        const cid = parseInt(req.params.id);
+        const categories = await service.getCategory(cid);
+        res.json(categories);    
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send(`Error getting categories from database: ${err.message}`);
+    }
+});
+
+
 router.post("/", async (req, res) => {
     try {
         const name = req.body.name;

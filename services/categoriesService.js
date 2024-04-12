@@ -15,9 +15,13 @@ class categoriesService {
     }
 
 
-    async createCategory(name) {
+    async createCategory(name, description) {
         try {
-            const category = await prisma.categories.create({ data: { name: name }});
+            const category = await prisma.categories.create({ 
+                data: { 
+                    name: name,
+                    description: description
+                }});
             return category;
         }
         catch (err) {
@@ -26,6 +30,17 @@ class categoriesService {
         }
     }
 
+
+    async getCategory(cid) {
+        try {
+            const category = await prisma.categories.findUnique({ where: { id: cid }});
+            return category;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error(`Error creating new category: ${err.message}`);
+        }
+    }
 
     async updateCategory(cid, name) {
         try {
