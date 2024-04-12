@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { usersService } = require('../services/service')
 
-<<<<<<< HEAD
 const {usersService} = require('../services/service')
-=======
->>>>>>> main
 const service = new usersService();
 
 router.get("/", async(req, res) => {
