@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const { userService } = require('../services/userService')
 
-const {usersService} = require('../services/service')
-const service = new usersService();
+const service = new userService();
 
 router.get("/", async(req, res) => {
 // Get all users
@@ -14,10 +14,30 @@ router.get("/", async(req, res) => {
     }
 });
 
+router.get("/:id", async(req, res) => {
+// Get user with specific @ uid
+    try {
+        const id = parseInt(req.params.id);
+        res.json(await service.getUser(id))
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(`Error getting User from database: ${err.message}`)
+    }
+});
+
 router.post("/", async (req, res) => {
     // Create a new user
     try {
-        await service.createUser(req.body.first_name, req.body.last_name, req.body.email, req.body.phone, req.body.city, req.body.street, req.body.password, req.body.payment_method)
+        await service.createUser(
+            req.body.first_name, 
+            req.body.last_name, 
+            req.body.email, 
+            req.body.phone, 
+            req.body.city, 
+            req.body.street, 
+            req.body.password, 
+            req.body.payment_method
+        );
         res.json({ message: 'User added to database'})
     } catch (err) {
         console.error(err)
@@ -25,11 +45,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put("/", async(req, res) => {
+router.put("/:id", async(req, res) => {
     // Update information of user @ uid
     try {
         const id = parseInt(req.params.id);
-        await service.updateUser(id, req.body.first_name, req.body.last_name, req.body.email, req.body.phone, req.body.city, req.body.street, req.body.password, req.body.payment_method)
+        await service.updateUser(
+            id, 
+            req.body.first_name, 
+            req.body.last_name, 
+            req.body.email, 
+            req.body.phone, 
+            req.body.city, 
+            req.body.street, 
+            req.body.password, 
+            req.body.payment_method
+        );
         res.json({ message: 'User information updated'})
     } catch (err) {
         console.error(err)
@@ -48,28 +78,18 @@ router.delete("/", async(req, res) => {
     }
 });
 
-router.get("/:id", async(req, res) => {
-// Get user with specific @ uid
-    try {
-        const id = parseInt(req.params.id);
-        res.json(await service.getUser(id))
-    } catch (err) {
-        console.error(err)
-        res.status(500).send(`Error getting User from database: ${err.message}`)
-    }
-});
-
 router.delete("/:id", async(req, res) => {
     // Delete User with @ uid
     try {
-        const uid = parseInt(req.params.id);
+        const id = parseInt(req.params.id);
         console.log(req.body)
-            await service.deleteUser(uid);
+            await service.deleteUser(id);
             res.json({ message: 'User deleted from database' })
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error deleting User: ${err.message}`)
     }
 });
+
 
 module.exports = router;
