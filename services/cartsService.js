@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 class cartsService {
 
-  async getAllCarts() {
+  async getAllCartItems() {
     try {
       const carts = await prisma.carts.findMany();
       return carts;
@@ -14,7 +14,7 @@ class cartsService {
   }
 
 
-  async deleteAllCarts() {
+  async deleteAllCartItems() {
     try {
       await prisma.carts.deleteMany();
     } catch (err) {
@@ -24,7 +24,7 @@ class cartsService {
   }
 
 
-  async getCart(userId) {
+  async getCartItems(userId) {
     try {
       const cart = await prisma.carts.findMany({
         where: {
@@ -39,7 +39,7 @@ class cartsService {
   }
 
 
-  async createCart(userId, productId, quantity) {
+  async addCartItem(userId, productId, quantity) {
     try {
       const cart = await prisma.carts.create({
         data: {
@@ -56,7 +56,7 @@ class cartsService {
   }
 
 
-  async updateCart(userId, productId, quantity) {
+  async updateCartItem(userId, productId, quantity) {
     try {
       const cart = await prisma.carts.update({
         where: {
@@ -77,7 +77,7 @@ class cartsService {
   }
 
 
-  async deleteProductFromCart(userId, productId) {
+  async deleteCartItem(userId, productId) {
     try {
       await prisma.carts.delete({
         where: {
@@ -92,21 +92,7 @@ class cartsService {
       throw new Error(`Error deleting cart: ${err.message}`);
     }
   }
-
-
-  async deleteCart(userId) {
-    try {
-      await prisma.carts.deleteMany({
-        where: {
-          uid: userId,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      throw new Error(`Error deleting cart: ${err.message}`);
-    }
-  }
-  
+ 
 }
 
 module.exports = { cartsService };

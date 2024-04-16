@@ -80,7 +80,7 @@ async function main() {
         },
     });
 
-    const cart1 = await prisma.carts.create({
+    const cart1 = await prisma.cartItems.create({
         data: {
             uid: user1.id,
             pid: product1.id,

@@ -109,14 +109,11 @@ router.delete("/:id", async (req, res) => {
   // Delete product @ pid
   try {
     const pid = parseInt(req.params.id);
-    console.log(req.body);
-    res.json(await service.deleteProduct(pid));
-    res.json({ message: "Product deleted" });
+    const deletedProduct = await service.deleteProduct(pid);
+    res.json({ message: `${deletedProduct.name} deleted` });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .send(`Error deleting product from database: ${err.message}`);
+    res.status(500).send(`Error deleting product from database: ${err.message}`);
   }
 });
 

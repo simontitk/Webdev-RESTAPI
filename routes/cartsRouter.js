@@ -7,7 +7,7 @@ const service = new cartsService();
 router.get("/", async (req, res) => {
     // Read all carts
     try {
-        res.json(await service.getAllCarts())
+        res.json(await service.getAllCartItems())
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error getting carts from database: ${err.message}`)
@@ -38,10 +38,9 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/:id", async (req, res) => {
-    // Create new cart for user @ uid
     try {
         const uid = parseInt(req.params.id);
-        await service.createCart(uid, req.body.pid, req.body.quantity)
+        await service.addCartItem(uid, req.body.pid, req.body.quantity);
         res.json({ message: 'Cart added to database' })
     } catch (err) {
         console.error(err)
@@ -50,7 +49,6 @@ router.post("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-    // Update cart of user @ uid
     try {
         const uid = parseInt(req.params.id);
         await service.updateCart(uid, req.body.pid, req.body.quantity)
@@ -65,16 +63,9 @@ router.delete("/:id", async (req, res) => {
     // Delete item from cart of user @ uid
     try {
         const uid = parseInt(req.params.id);
-        console.log(req.body)
-        if (req.body.pid) {
-            // If pid is provided, delete only the product with that ID
-            await service.deleteProductFromCart(uid, req.body.pid);
-            res.json({ message: 'Product deleted from cart' })
-        } else {
-            // If pid is not provided, delete all cart of user
-            await service.deleteCart(uid);
-            res.json({ message: 'Cart deleted' })
-        }
+        await service.deleteCartItem(uid, req.body.pid);
+        res.json({ message: 'Product deleted from cart' })
+
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error deleting cart: ${err.message}`)

@@ -91,7 +91,11 @@ class productsService {
 
     async deleteAllProducts() {
       try {
-        await prisma.products.deleteMany();
+        await prisma.products.updateMany({
+            data: {
+                discontinued: true
+            }
+        });
       } catch (err) {
         console.error(err);
         throw new Error(`Error deleting all products: ${err.message}`);
@@ -158,11 +162,15 @@ class productsService {
 
     async deleteProduct(productId) {
       try {
-        await prisma.products.delete({
+        const deletedProduct = await prisma.products.update({
           where: {
             id: productId,
           },
+          data: {
+            discontinued: true
+          }
         });
+        return deletedProduct;
       } catch (err) {
         console.error(err);
         throw new Error(`Error deleting product: ${err.message}`);

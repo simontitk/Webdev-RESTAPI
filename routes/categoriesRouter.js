@@ -33,7 +33,8 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
         const name = req.body.name;
-        const category = await service.createCategory(name);
+        const description = req.body.description;
+        const category = await service.createCategory(name, description);
         res.json(category);    
     }
     catch (err) {

@@ -9,7 +9,7 @@ datasource db {
 
 model Products {
   id          Int                 @id @default(autoincrement())
-  name        String
+  name        String              @unique
   brand       String
   description String
   picture_uri String
@@ -17,14 +17,15 @@ model Products {
   amount      Int
   rating      Int
   price       Float
+  discontinued      Boolean        @default(false)
   categories  Categories[]
-  cart        Carts[]
+  cart        CartItems[]
   orders      OrdersOnProducts[]
 }
 
 model Categories {
   id       Int            @id @default(autoincrement())
-  name     String
+  name     String         @unique
   description String
   products Products[]
 }
@@ -33,17 +34,17 @@ model Users {
   id             Int      @id @default(autoincrement())
   first_name     String
   last_name      String
-  email          String
+  email          String   @unique
   phone          String
   city           String
   street         String
   password       String
   payment_method String
-  cart           Carts[]
+  cart           CartItems[]
   orders         Orders[]
 }
 
-model Carts {
+model CartItems {
   uid      Int
   user     Users        @relation(fields: [uid], references: [id], onDelete: Cascade) 
   pid      Int
