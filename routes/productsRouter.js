@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { productsService } = require('../services/productsService');
-const { map } = require("../app");
 
 const service = new productsService();
 
@@ -9,11 +8,11 @@ router.get("/", async (req, res) => {
   try {
     let cid = req.query.category;
     if (!cid) {
-        res.json(await service.getAllProducts());
+      res.json(await service.getAllProducts());
     }
     else {
-        cid = (Array.isArray(cid)) ? cid.map(c =>parseInt(c)) : [parseInt(cid), ];
-        res.json(await service.getAllCategoryProducts(cid));
+      cid = (Array.isArray(cid)) ? cid.map(c => parseInt(c)) : [parseInt(cid),];
+      res.json(await service.getAllCategoryProducts(cid));
     }
 
   } catch (err) {
@@ -25,7 +24,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   // Create new product
   try {
-    const {name, brand, description, picture_uri, volume, amount, rating, price, categories} = req.body;
+    const { name, brand, description, picture_uri, volume, amount, rating, price, categories } = req.body;
     await service.createProduct(name, brand, description, picture_uri, volume, amount, rating, price, categories);
     res.json({ message: "Product added to database" });
   } catch (err) {
@@ -36,7 +35,7 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   // Update all products
-  const {name, brand, description, picture_uri, volume, amount, rating, price, categories} = req.body;
+  const { name, brand, description, picture_uri, volume, amount, rating, price, categories } = req.body;
   try {
     await service.updateAllProducts(name, brand, description, picture_uri, volume, amount, rating, price, categories);
     res.json({ message: "All products updated" });
@@ -72,10 +71,10 @@ router.put("/:id", async (req, res) => {
   // Update product @ pid
   try {
     const pid = parseInt(req.params.id);
-    const {name, brand, description, picture_uri, volume, amount, rating, price, categories} = req.body;
+    const { name, brand, description, picture_uri, volume, amount, rating, price, categories } = req.body;
     await service.updateAllProducts(pid, name, brand, description, picture_uri, volume, amount, rating, price, categories);
     res.json({ message: "Product updated" });
-  } 
+  }
   catch (err) {
     console.error(err);
     res.status(500).send(`Error updating product: ${err.message}`);

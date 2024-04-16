@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.delete("/", async (req, res) => {
     // Delete all carts
     try {
-        await service.deleteAllCarts()
+        await service.deleteAllCartItems()
         res.json({ message: 'All carts deleted' })
     } catch (err) {
         console.error(err)
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     // Read cart of user @ uid
     try {
         const uid = parseInt(req.params.id);
-        res.json(await service.getCart(uid))
+        res.json(await service.getCartItems(uid))
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error getting cart from database: ${err.message}`)
@@ -51,7 +51,7 @@ router.post("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
         const uid = parseInt(req.params.id);
-        await service.updateCart(uid, req.body.pid, req.body.quantity)
+        await service.updateCartItem(uid, req.body.pid, req.body.quantity)
         res.json({ message: 'Cart updated' })
     } catch (err) {
         console.error(err)
