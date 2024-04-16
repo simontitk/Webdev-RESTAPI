@@ -25,8 +25,11 @@ router.post("/", async (req, res) => {
   // Create new product
   try {
     const { name, brand, description, picture_uri, volume, amount, rating, price, categories } = req.body;
-    await service.createProduct(name, brand, description, picture_uri, volume, amount, rating, price, categories);
-    res.json({ message: "Product added to database" });
+    const product = await service.createProduct(name, brand, description, picture_uri, volume, amount, rating, price, categories);
+    res.json({
+      message: "Product added to database",
+      product: product
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send(`Error adding product to database: ${err.message}`);
