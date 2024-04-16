@@ -1,32 +1,32 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-class cartsService {
+class cartItemsService {
 
   async getAllCartItems() {
     try {
-      const carts = await prisma.carts.findMany();
+      const carts = await prisma.cartItems.findMany();
       return carts;
     } catch (err) {
       console.error(err);
-      throw new Error(`Error fetching carts from database: ${err.message}`);
+      throw new Error(`Error fetching cart items from database: ${err.message}`);
     }
   }
 
 
   async deleteAllCartItems() {
     try {
-      await prisma.carts.deleteMany();
+      await prisma.cartItems.deleteMany();
     } catch (err) {
       console.error(err);
-      throw new Error(`Error deleting all carts: ${err.message}`);
+      throw new Error(`Error removing all items from all carts: ${err.message}`);
     }
   }
 
 
   async getCartItems(userId) {
     try {
-      const cart = await prisma.carts.findMany({
+      const cart = await prisma.cartItems.findMany({
         where: {
           uid: userId,
         },
@@ -34,14 +34,14 @@ class cartsService {
       return cart;
     } catch (err) {
       console.error(err);
-      throw new Error(`Error getting cart from database: ${err.message}`);
+      throw new Error(`Error getting cart items from database: ${err.message}`);
     }
   }
 
 
   async addCartItem(userId, productId, quantity) {
     try {
-      const cart = await prisma.carts.create({
+      const cart = await prisma.cartItems.create({
         data: {
           uid: userId,
           pid: productId,
@@ -51,14 +51,14 @@ class cartsService {
       return cart;
     } catch (err) {
       console.error(err);
-      throw new Error(`Error adding cart to database: ${err.message}`);
+      throw new Error(`Error adding item to cart: ${err.message}`);
     }
   }
 
 
   async updateCartItem(userId, productId, quantity) {
     try {
-      const cart = await prisma.carts.update({
+      const cart = await prisma.cartItems.update({
         where: {
           uid_pid: {
             uid: userId,
@@ -79,7 +79,7 @@ class cartsService {
 
   async deleteCartItem(userId, productId) {
     try {
-      await prisma.carts.delete({
+      await prisma.cartItems.delete({
         where: {
           uid_pid: {
             uid: userId,
@@ -89,10 +89,10 @@ class cartsService {
       });
     } catch (err) {
       console.error(err);
-      throw new Error(`Error deleting cart: ${err.message}`);
+      throw new Error(`Error removing item from cart: ${err.message}`);
     }
   }
  
 }
 
-module.exports = { cartsService };
+module.exports = { cartItemsService };

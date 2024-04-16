@@ -5,7 +5,7 @@ const path = require('path');
 const createError = require('http-errors');
 
 const indexRouter = require('./routes/index.js');
-const cartsRouter = require('./routes/cartsRouter.js')
+const cartItemsRouter = require('./routes/cartItemsRouter.js')
 const ordersRouter = require('./routes/ordersRouter.js')
 const productsRouter = require('./routes/productsRouter.js')
 const usersRouter = require('./routes/usersRouter.js')
@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/carts', cartsRouter);
+app.use('/cart_items', cartItemsRouter);
 app.use('/orders', ordersRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);

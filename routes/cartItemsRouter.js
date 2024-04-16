@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { cartsService } = require('../services/cartsService')
+const { cartItemsService } = require('../services/cartItemsService')
 
-const service = new cartsService();
+const service = new cartItemsService();
 
 router.get("/", async (req, res) => {
     // Read all carts

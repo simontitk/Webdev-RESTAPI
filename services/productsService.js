@@ -11,24 +11,39 @@ class productsService {
           }
         });
         return products;
-      } catch (err) {
+      } 
+      catch (err) {
         console.error(err);
         throw new Error(`Error fetching products from database: ${err.message}`);
       }
     }
 
+    async getAllCategoryProducts(categoryIds) {
+        try {
+            const products = await prisma.products.findMany({
+                where: {
+                    categories: {
+                        some: {
+                            id: {
+                                in: categoryIds
+                            }
+                        }
+                    }
+                },
+                include: {
+                    categories: true
+                }
+            });
+        return products;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error(`Error fetching products from database: ${err.message}`);
+        }
+    }
+
     
-    async createProduct(
-      name,
-      brand,
-      description,
-      picture_uri,
-      volume,
-      amount,
-      rating,
-      price,
-      categories
-    ) {
+    async createProduct(name, brand, description, picture_uri, volume, amount, rating, price, categories) {
       try {
         const product = await prisma.products.create({
           data: {
@@ -54,17 +69,7 @@ class productsService {
     }
 
   
-    async updateAllProducts(
-      name,
-      brand,
-      description,
-      picture_uri,
-      volume,
-      amount,
-      rating,
-      price,
-      categories
-    ) {
+    async updateAllProducts(name, brand, description, picture_uri, volume, amount, rating, price, categories) {
       try {
         const product = await prisma.products.update({
           data: {
@@ -105,7 +110,7 @@ class productsService {
 
     async getProduct(productId) {
       try {
-        const product = await prisma.products.findMany({
+        const product = await prisma.products.findUniqueOrThrow({
           where: {
             id: productId,
           },
@@ -121,18 +126,7 @@ class productsService {
     }
 
   
-    async updateProduct(
-      productId,
-      name,
-      brand,
-      description,
-      picture_uri,
-      volume,
-      amount,
-      rating,
-      price,
-      categories
-    ) {
+    async updateProduct(productId, name, brand, description, picture_uri, volume, amount, rating, price, categories) {
       try {
         const product = await prisma.products.update({
           where: {

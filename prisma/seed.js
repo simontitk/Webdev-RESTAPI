@@ -4,32 +4,53 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+const { getCategories, getProducts } = require('./products.js');
+
 async function main() {
 
-    const category1 = await prisma.categories.create({
-        data: {
-            name: 'Category 1',
-            description: "this is our second amazing category"
-        },
-    });
+    const products = getProducts();
+    const categoriesData = getCategories();
+    const categoryMap = new Map();
+    for (const categoryData of categoriesData) {
+        const category = await prisma.categories.create({
+            data: {
+                name: categoryData.category,
+                description: categoryData.description,
+            },
+        });
+        categoryMap.set(categoryData.category, category.id);
+    }
 
-    const category2 = await prisma.categories.create({
-        data: {
-            name: 'Category 2',
-            description: "this is our second amazing category"
-        },
-    });
+    for (const product of products) {
+        await prisma.products.create({
+            data: {
+                picture_uri: product.picture,
+                name: product.name,
+                brand: product.brand,
+                description: product.description,
+                volume: product.size,
+                amount: product.quantity,
+                rating: product.rating,
+                price: product.price,
+                categories: {
+                    connect: product.categories.map(categoryName => ({
+                        id: categoryMap.get(categoryName),
+                    })),
+                },
+            },
+        });
+    }
 
     const user1 = await prisma.users.create({
         data: {
-            first_name: 'John',
-            last_name: 'Doe',
-            email: 'john.doe@example.com',
+            first_name: 'Belle',
+            last_name: 'Delphine',
+            email: 'belle@example.com',
             phone: '1234567890',
             city: 'City',
             street: 'Street',
             password: 'password',
-            payment_method: 'Credit Card',            
+            payment_method: 'Credit Card',
         },
     });
 
@@ -48,42 +69,10 @@ async function main() {
 
 
 
-    const product1 = await prisma.products.create({
-        data: {
-            name: 'Product 1',
-            brand: 'Brand',
-            description: 'Description',
-            picture_uri: 'http://example.com/picture.jpg',
-            volume: 100,
-            amount: 10,
-            rating: 5,
-            price: 9.99,
-            categories: {
-                connect: [{id: 1}]
-              }
-        },
-    });
-
-    const product2 = await prisma.products.create({
-        data: {
-            name: 'Product 2',
-            brand: 'Brand',
-            description: 'Description',
-            picture_uri: 'http://example.com/picture.jpg',
-            volume: 50,
-            amount: 5,
-            rating: 2,
-            price: 1.99,
-            categories: {
-                connect: [{id: 2}]
-              }
-        },
-    });
-
     const cart1 = await prisma.cartItems.create({
         data: {
             uid: user1.id,
-            pid: product1.id,
+            pid: 1,
             quantity: 1,
         },
     });
@@ -91,9 +80,9 @@ async function main() {
     const order1 = await prisma.orders.create({
         data: {
             uid: user1.id,
-            total_price: product1.price,
+            total_price: 9.95,
             products: {
-                create: [{quantity: 2, pid: product1.id}]
+                create: [{ quantity: 2, pid: 1 }]
             }
         },
     });
