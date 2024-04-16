@@ -68,7 +68,7 @@ class ordersService {
             });
             return order;
         } 
-        catch (error) {
+        catch (err) {
             console.error(err);
             throw new Error(`Error adding order to database: ${err.message}`);
         }

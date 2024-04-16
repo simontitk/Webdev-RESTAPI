@@ -52,7 +52,7 @@ router.delete("/", async (req, res) => {
   // Delete all products
   try {
     await service.deleteAllProducts();
-    res.json({ message: "All products deleted" });
+    res.json({ message: "All products discontinued" });
   } catch (err) {
     console.error(err);
     res.status(500).send(`Error deleting all products: ${err.message}`);
@@ -75,7 +75,7 @@ router.put("/:id", async (req, res) => {
   try {
     const pid = parseInt(req.params.id);
     const { name, brand, description, picture_uri, volume, amount, rating, price, categories } = req.body;
-    await service.updateAllProducts(pid, name, brand, description, picture_uri, volume, amount, rating, price, categories);
+    await service.updateProduct(pid, name, brand, description, picture_uri, volume, amount, rating, price, categories);
     res.json({ message: "Product updated" });
   }
   catch (err) {
@@ -92,7 +92,7 @@ router.delete("/:id", async (req, res) => {
     res.json({ message: `${deletedProduct.name} deleted` });
   } catch (err) {
     console.error(err);
-    res.status(500).send(`Error deleting product from database: ${err.message}`);
+    res.status(500).send(`Error discontining product from database: ${err.message}`);
   }
 });
 

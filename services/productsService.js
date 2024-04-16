@@ -71,21 +71,20 @@ class productsService {
 
   async updateAllProducts(name, brand, description, picture_uri, volume, amount, rating, price, categories) {
     try {
-      const product = await prisma.products.update({
+
+      const product = await prisma.products.updateMany({
         data: {
-          name: name,
-          brand: brand,
-          description: description,
-          picture_uri: picture_uri,
-          volume: volume,
-          amount: amount,
-          rating: rating,
-          price: price,
-          categories: {
-            connect: categories.map(id => ({ id }))
+            name: name,
+            brand: brand,
+            description: description,
+            picture_uri: picture_uri,
+            volume: volume,
+            amount: amount,
+            rating: rating,
+            price: price,
+            categories: (categories === undefined) ? undefined : {connect: categories.map(id => ({ id }))}
           }
-        },
-      });
+        });
       return product;
     } catch (err) {
       console.error(err);
@@ -128,10 +127,13 @@ class productsService {
 
   async updateProduct(productId, name, brand, description, picture_uri, volume, amount, rating, price, categories) {
     try {
+        if (categories) {
+            await prisma.products.update({
+            where: {id: productId},
+            data: {categories: { set: [] } }
+        });}
       const product = await prisma.products.update({
-        where: {
-          id: productId,
-        },
+        where: { id: productId },
         data: {
           name: name,
           brand: brand,
@@ -141,9 +143,7 @@ class productsService {
           amount: amount,
           rating: rating,
           price: price,
-          categories: {
-            connect: categories.map(id => ({ id }))
-          }
+          categories: (categories === undefined) ? undefined : {connect: categories.map(id => ({ id }))}
         },
       });
       return product;
