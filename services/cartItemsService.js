@@ -5,7 +5,11 @@ class cartItemsService {
 
   async getAllCartItems() {
     try {
-      const carts = await prisma.cartItems.findMany();
+      const carts = await prisma.cartItems.findMany({
+        include: {
+          product: true
+        }
+      });
       return carts;
     } catch (err) {
       console.error(err);
@@ -30,6 +34,9 @@ class cartItemsService {
         where: {
           uid: userId,
         },
+        include: {
+          product: true
+        }
       });
       return cart;
     } catch (err) {
@@ -92,7 +99,7 @@ class cartItemsService {
       throw new Error(`Error removing item from cart: ${err.message}`);
     }
   }
- 
+
 }
 
 module.exports = { cartItemsService };
