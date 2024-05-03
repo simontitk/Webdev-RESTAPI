@@ -17,6 +17,20 @@ class userService {
         }
     }
 
+    async getUserByEmail(email) {
+        try {
+            const user = await prisma.users.findFirst({
+                where: {
+                    email: email
+                }
+            })
+            return user
+        } catch (err) {
+            console.error(err)
+            throw new Error(`Error getting User from database: ${err.message}`)
+        }
+    }
+
     async getAllUsers() {
         try {
             const users = await prisma.users.findMany()
@@ -27,14 +41,14 @@ class userService {
         }
     }
 
-    async createUser( 
-        first_name, 
-        last_name, 
-        email, 
-        phone, 
-        city, 
-        street, 
-        password, 
+    async createUser(
+        first_name,
+        last_name,
+        email,
+        phone,
+        city,
+        street,
+        password,
         payment_method
     ) {
         try {
@@ -57,15 +71,15 @@ class userService {
         }
     }
 
-    async updateUser( 
+    async updateUser(
         userId,
-        first_name, 
-        last_name, 
-        email, 
-        phone, 
-        city, 
-        street, 
-        password, 
+        first_name,
+        last_name,
+        email,
+        phone,
+        city,
+        street,
+        password,
         payment_method
     ) {
         try {
@@ -92,15 +106,15 @@ class userService {
     }
 
     async deleteUser(userId) {
-    try {
-        await prisma.users.delete({
-            where: {
-            id: userId,
-            },
-        });
-    } catch (err) {
-        console.error(err);
-        throw new Error(`Error deleting user: ${err.message}`);
+        try {
+            await prisma.users.delete({
+                where: {
+                    id: userId,
+                },
+            });
+        } catch (err) {
+            console.error(err);
+            throw new Error(`Error deleting user: ${err.message}`);
         }
     }
 
