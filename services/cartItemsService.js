@@ -48,14 +48,38 @@ class cartItemsService {
 
   async addCartItem(userId, productId, quantity) {
     try {
-      const cart = await prisma.cartItems.create({
-        data: {
+      let cartItem = await prisma.cartItems.findFirst({
+        where: {
           uid: userId,
           pid: productId,
-          quantity: quantity,
         },
       });
-      return cart;
+      if (cartItem) {
+        cartItem = await prisma.cartItems.update({
+          where: {
+            uid_pid: {
+              uid: userId,
+              pid: productId,
+            },
+          },
+          data: {
+            quantity: {
+              increment: quantity,
+            },
+          }
+        });
+        return cartItem;
+      }
+      else {
+        cartItem = await prisma.cartItems.create({
+          data: {
+            uid: userId,
+            pid: productId,
+            quantity: quantity,
+          },
+        });
+      }
+      return cartItem;
     } catch (err) {
       console.error(err);
       throw new Error(`Error adding item to cart: ${err.message}`);
