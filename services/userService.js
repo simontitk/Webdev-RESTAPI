@@ -42,26 +42,24 @@ class userService {
     }
 
     async createUser(
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         phone,
         city,
         street,
         password,
-        payment_method
     ) {
         try {
             const user = await prisma.users.create({
                 data: {
-                    first_name: first_name,
-                    last_name: last_name,
+                    first_name: firstName,
+                    last_name: lastName,
                     email: email,
                     phone: phone,
                     city: city,
                     street: street,
                     password: password,
-                    payment_method: payment_method
                 }
             })
             return user
@@ -73,14 +71,14 @@ class userService {
 
     async updateUser(
         userId,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         phone,
         city,
         street,
         password,
-        payment_method
+        paymentMethod
     ) {
         try {
             const user = await prisma.users.update({
@@ -88,14 +86,14 @@ class userService {
                     id: userId,
                 },
                 data: {
-                    first_name: first_name,
-                    last_name: last_name,
+                    first_name: firstName,
+                    lastName: lastName,
                     email: email,
                     phone: phone,
                     city: city,
                     street: street,
                     password: password,
-                    payment_method: payment_method
+                    payment_method: paymentMethod
                 }
             })
             return user

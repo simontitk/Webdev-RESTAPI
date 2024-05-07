@@ -32,18 +32,18 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     // Create a new user
-    const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
+    const { firstName, lastName, email, phone, city, street, password, paymentMethod } = req.body;
 
     try {
         await service.createUser(
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             email,
             phone,
             city,
             street,
             password,
-            payment_method
+            paymentMethod
         );
         res.json({ message: 'User added to database' });
     } catch (err) {
@@ -56,17 +56,17 @@ router.put("/:id", async (req, res) => {
     // Update information of user @ uid
     try {
         const id = parseInt(req.params.id);
-        const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
+        const { firstName, lastName, email, phone, city, street, password, paymentMethod } = req.body;
         await service.updateUser(
             id,
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             email,
             phone,
             city,
             street,
             password,
-            payment_method
+            paymentMethod
         );
         res.json({ message: 'User information updated' })
     } catch (err) {

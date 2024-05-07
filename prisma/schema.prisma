@@ -8,69 +8,67 @@ datasource db {
 }
 
 model Products {
-  id          Int                 @id @default(autoincrement())
-  name        String              
-  brand       String
-  description String
-  picture_uri String
-  volume      Int
-  amount      Int
-  rating      Int
-  price       Float
-  discontinued      Boolean        @default(false)
-  categories  Categories[]
-  cart        CartItems[]
-  orders      OrdersOnProducts[]
+  id           Int                @id @default(autoincrement())
+  name         String
+  brand        String
+  description  String
+  picture_uri  String
+  volume       Int
+  amount       Int
+  rating       Int
+  price        Float
+  discontinued Boolean            @default(false)
+  categories   Categories[]
+  cart         CartItems[]
+  orders       OrdersOnProducts[]
 }
 
 model Categories {
-  id       Int            @id @default(autoincrement())
-  name     String         @unique
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
   description String
-  products Products[]
+  products    Products[]
 }
 
 model Users {
-  id             Int      @id @default(autoincrement())
+  id             Int         @id @default(autoincrement())
   first_name     String
   last_name      String
-  email          String   @unique
+  email          String      @unique
   phone          String
   city           String
   street         String
   password       String
-  payment_method String
+  payment_method String      @default("Credit Card")
   cart           CartItems[]
   orders         Orders[]
 }
 
 model CartItems {
   uid      Int
-  user     Users        @relation(fields: [uid], references: [id], onDelete: Cascade) 
+  user     Users    @relation(fields: [uid], references: [id], onDelete: Cascade)
   pid      Int
-  product  Products     @relation(fields: [pid], references: [id])
+  product  Products @relation(fields: [pid], references: [id])
   quantity Int
 
   @@id([uid, pid])
 }
 
 model Orders {
-  id            Int           @id @default(autoincrement())
-  total_price   Float
-  order_date    DateTime       @default(now())
-  uid           Int
-  user          Users         @relation(fields: [uid], references: [id], onDelete: Cascade)
-  products      OrdersOnProducts[]
+  id          Int                @id @default(autoincrement())
+  total_price Float
+  order_date  DateTime           @default(now())
+  uid         Int
+  user        Users              @relation(fields: [uid], references: [id], onDelete: Cascade)
+  products    OrdersOnProducts[]
 }
 
 model OrdersOnProducts {
-    oid         Int 
-    order       Orders      @relation(fields: [oid], references: [id], onDelete: Cascade)
-    pid         Int
-    product     Products    @relation(fields: [pid], references: [id])
-    quantity    Int
+  oid      Int
+  order    Orders   @relation(fields: [oid], references: [id], onDelete: Cascade)
+  pid      Int
+  product  Products @relation(fields: [pid], references: [id])
+  quantity Int
 
-    @@id([oid, pid])
+  @@id([oid, pid])
 }
-
-

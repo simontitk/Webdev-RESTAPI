@@ -50,7 +50,6 @@ async function main() {
             city: 'Copenhagen',
             street: 'Hydrovej 420',
             password: 'password',
-            payment_method: 'Credit Card',
         },
     });
 
@@ -63,7 +62,6 @@ async function main() {
             city: 'City',
             street: 'Street',
             password: 'password',
-            payment_method: 'Credit Card',
         },
     });
 
