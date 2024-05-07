@@ -20,3 +20,5 @@ router.post("/", async (req, res) => {
         res.status(500).send(`Error getting users from database: ${err.message}`)
     }
 });
+
+module.exports = router;
