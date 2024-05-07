@@ -19,7 +19,7 @@ class userService {
 
     async getUserByEmail(email) {
         try {
-            const user = await prisma.users.findFirst({
+            const user = await prisma.users.findUnique({
                 where: {
                     email: email
                 }
