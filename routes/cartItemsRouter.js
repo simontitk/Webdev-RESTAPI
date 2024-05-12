@@ -40,13 +40,9 @@ router.get("/:id", async (req, res) => {
 router.post("/:id", async (req, res) => {
     try {
         const uid = parseInt(req.params.id);
-        const cartItem = {
-            uid: uid,
-            pid: req.body.pid,
-            quantity: req.body.quantity
-        }
-        await service.addCartItem(uid, req.body.pid, req.body.quantity);
-        res.json(cartItem)
+        const newItem = await service.addCartItem(uid, req.body.pid, req.body.quantity);
+        console.log(newItem)
+        res.json({ message: 'Item added to cart', item: newItem })
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error adding cart to database: ${err.message}`)

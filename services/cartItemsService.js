@@ -66,6 +66,9 @@ class cartItemsService {
             quantity: {
               increment: quantity,
             },
+          },
+          include: {
+            product: true
           }
         });
         return cartItem;
@@ -77,6 +80,9 @@ class cartItemsService {
             pid: productId,
             quantity: quantity,
           },
+          include: {
+            product: true
+          }
         });
       }
       return cartItem;
