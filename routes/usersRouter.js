@@ -25,25 +25,25 @@ router.get("/:id", async (req, res) => {
         const id = parseInt(req.params.id);
         res.json(await service.getUser(id))
     } catch (err) {
-        console.error(err)
+        console.error(err)  
         res.status(500).send(`Error getting User from database: ${err.message}`)
     }
 });
 
 router.post("/", async (req, res) => {
     // Create a new user
-    const { firstName, lastName, email, phone, city, street, password, paymentMethod } = req.body;
+    const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
 
     try {
         await service.createUser(
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             email,
             phone,
             city,
             street,
             password,
-            paymentMethod
+            payment_method
         );
         res.json({ message: 'User added to database' });
     } catch (err) {
@@ -56,17 +56,18 @@ router.put("/:id", async (req, res) => {
     // Update information of user @ uid
     try {
         const id = parseInt(req.params.id);
-        const { firstName, lastName, email, phone, city, street, password, paymentMethod } = req.body;
+        const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
+        console.log("FIRST_nAME: " + first_name);
         await service.updateUser(
             id,
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             email,
             phone,
             city,
             street,
             password,
-            paymentMethod
+            payment_method
         );
         res.json({ message: 'User information updated' })
     } catch (err) {

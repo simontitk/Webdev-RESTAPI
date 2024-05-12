@@ -87,7 +87,7 @@ class userService {
                 },
                 data: {
                     first_name: firstName,
-                    lastName: lastName,
+                    last_name: lastName,
                     email: email,
                     phone: phone,
                     city: city,
