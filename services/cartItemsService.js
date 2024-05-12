@@ -99,7 +99,11 @@ class cartItemsService {
         data: {
           quantity: quantity,
         },
+        include: {
+          product: true
+        }
       });
+      console.log(cart);
       return cart;
     } catch (err) {
       console.error(err);

@@ -56,8 +56,8 @@ router.post("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
         const uid = parseInt(req.params.id);
-        await service.updateCartItem(uid, req.body.pid, req.body.quantity)
-        res.json({ message: 'Cart updated' })
+        const updatedItem = await service.updateCartItem(uid, req.body.pid, req.body.quantity)
+        res.json({ message: 'Cart updated', item: updatedItem })
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error updating cart: ${err.message}`)
