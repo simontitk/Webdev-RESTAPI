@@ -57,8 +57,7 @@ router.put("/:id", async (req, res) => {
     try {
         const id = parseInt(req.params.id);
         const { first_name, last_name, email, phone, city, street, password, payment_method } = req.body;
-        console.log("FIRST_nAME: " + first_name);
-        await service.updateUser(
+        const updatedUser = await service.updateUser(
             id,
             first_name,
             last_name,
@@ -69,7 +68,7 @@ router.put("/:id", async (req, res) => {
             password,
             payment_method
         );
-        res.json({ message: 'User information updated' })
+        res.json({ message: 'User information updated', user: updatedUser });
     } catch (err) {
         console.error(err)
         res.status(500).send(`Error updating user information: ${err.message}`)
